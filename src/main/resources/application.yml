@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: HelloWorld
+  flyway:
+    enabled: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  profiles:
+    active: development
+  cloud:
+    zookeeper:
+      enabled: true
+      connect-string: localhost:2181
+      discovery:
+        enabled: true
+      config:
+        enabled: false
+        root: configuration
+  logging:
+    level:
+      org.apache.zookeeper.ClientCnxn: ERROR
+
+server:
+  port: 8081
+
+endpoints:
+  health:
+    sensitive: true
+  zookeeper:
+    enabled: true
+
+---
+
+spring:
+  profiles: development
+
+  datasource:
+    url: ${datasource.development.url}
+    username: ${datasource.development.username}
+    password: ${datasource.development.password}
