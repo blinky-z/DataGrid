@@ -1,0 +1,80 @@
+openapi: 3.0.0
+info:
+  title: Inter Communication API
+  description: Описывает общение нод внутри кластера
+  version: 0.0.1
+
+servers:
+  - url: /inter-api
+    description: Префикс всех эндпойнтов для внутреннего общения
+
+paths:
+  /read:
+    get:
+      summary: Чтение данных с ноды
+      description: Возвращает данные по указанному ID
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: ID данных
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+      responses:
+        '200':
+          description: Данные по указанному ID найдены
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadResponseDto'
+        '404':
+          description: Данные по указанному ID не найдены
+        '5XX':
+          description: Неожиданная ошибка
+
+  /write:
+    get:
+      summary: Запись данных в ноду
+      description: Записывает данные в ноду с указанным ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WriteRequestDto'
+      responses:
+        '200':
+          description: Данные успешно записаны
+        '5XX':
+          description: Неожиданная ошибка
+
+components:
+  schemas:
+    ReadResponseDto:
+      description: Ответ на чтение данных с ноды
+      properties:
+        data:
+          type: string
+          description: Данные
+        epochMilli:
+          type: long
+          description: Время сохранения данных в миллисекундах (Epoch)
+      required:
+        - data
+        - epochMilli
+
+    WriteRequestDto:
+      description: Запрос на запись данных в ноду
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID данных
+          minimum: 0
+        data:
+          type: string
+          description: Данные
+      required:
+        - id
+        - data

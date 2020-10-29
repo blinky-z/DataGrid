@@ -39,3 +39,7 @@ spring:
     url: ${datasource.development.url}
     username: ${datasource.development.username}
     password: ${datasource.development.password}
+
+logging:
+  level:
+    me.progbloom: DEBUG

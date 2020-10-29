@@ -1,7 +1,9 @@
 package me.progbloom.datagrid.app.data;
 
-import me.progbloom.datagrid.app.base.exception.WriteException;
-import org.apache.curator.framework.CuratorFramework;
+import me.progbloom.datagrid.app.data.exception.WriteException;
+import me.progbloom.datagrid.app.data.storage.Storage;
+import me.progbloom.datagrid.app.data.storage.StorageValue;
+import me.progbloom.datagrid.app.cluster.InterCommunicationService;
 import org.apache.curator.framework.recipes.atomic.AtomicValue;
 import org.apache.curator.framework.recipes.atomic.DistributedAtomicLong;
 import org.jetbrains.annotations.NotNull;
@@ -9,59 +11,77 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
- * Сервис для управления данными.
+ * Сервис для управления данными в кластере.
  */
 @Service
 public class DataService {
 
     private final Logger log = LoggerFactory.getLogger(DataService.class);
 
-    private final CuratorFramework client;
     private final DistributedAtomicLong writeCounter;
+    private final InterCommunicationService interCommunicationService;
 
-    private HashMap<Long, String> data;
-
-    public DataService(CuratorFramework client,
-                       DistributedAtomicLong writeCounter) {
-        this.client = client;
+    public DataService(DistributedAtomicLong writeCounter,
+                       InterCommunicationService interCommunicationService) {
         this.writeCounter = writeCounter;
-        this.data = new HashMap<>();
+        this.interCommunicationService = interCommunicationService;
     }
 
     /**
      * Сохраняет данные.
      *
-     * @param s данные
+     * @param data данные
      * @return идентификатор, по которому можно получить сохраненные данные
      */
     @NotNull
-    public Long save(@NotNull String s) {
-        Objects.requireNonNull(s);
+    public Long save(@NotNull final String data) {
+        Objects.requireNonNull(data);
 
-        Long counter;
+        final Long id;
         try {
             AtomicValue<Long> value = writeCounter.increment();
             if (value.succeeded()) {
-                counter = value.postValue();
+                id = value.postValue();
                 log.debug("Счетчик записи инкрементирован. Предыдущее значение: {}, Текущее значение: {}",
                     value.preValue(), value.postValue());
             } else {
                 throw new WriteException("Ошибка записи данных: превышено время ожидания инкрементирования счетчика");
             }
-        } catch (Exception e) {
-            throw new WriteException("Ошибка записи данных", e);
+        } catch (Exception ex) {
+            throw new WriteException("Ошибка записи данных", ex);
         }
-        data.put(counter, s);
-        return counter;
+        interCommunicationService.write(id, data);
+        return id;
     }
 
+    /**
+     * Читает самые последние данные в кластере.
+     *
+     * @param id ID данных
+     * @return данные или Optional.empty() если отсутствуют
+     */
     public Optional<String> read(@NotNull Long id) {
         Objects.requireNonNull(id);
-        return Optional.ofNullable(data.get(id));
+
+        List<StorageValue> results = interCommunicationService.read(id);
+        if (results.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(getMostFreshValue(results));
+    }
+
+    @NotNull
+    private String getMostFreshValue(@NotNull List<StorageValue> remoteData) {
+        Objects.requireNonNull(remoteData);
+        if (remoteData.isEmpty()) {
+            throw new IllegalArgumentException("Список результатов чтения пуст!");
+        }
+        return remoteData.stream()
+            .sorted(Comparator.comparing(StorageValue::getTimestamp).reversed())
+            .map(StorageValue::getValue)
+            .findFirst().get();
     }
 }

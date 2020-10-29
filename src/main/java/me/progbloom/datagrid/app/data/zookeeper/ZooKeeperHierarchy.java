@@ -1,5 +1,8 @@
 package me.progbloom.datagrid.app.data.zookeeper;
 
+/**
+ * Иерархия файловой системы Zookeeper.
+ */
 public final class ZooKeeperHierarchy {
 
     public static final String ROOT = "/";

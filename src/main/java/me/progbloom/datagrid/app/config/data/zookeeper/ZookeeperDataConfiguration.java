@@ -14,7 +14,7 @@ public class ZookeeperDataConfiguration {
     public DistributedAtomicLong writeCounter(CuratorFramework client) throws Exception {
         DistributedAtomicLong counter = new DistributedAtomicLong(client,
             ZooKeeperHierarchy.Synchronization.Counter.WRITE,
-            new ExponentialBackoffRetry(2, 29));
+            new ExponentialBackoffRetry(10, 29));
         counter.initialize(0L);
         return counter;
     }

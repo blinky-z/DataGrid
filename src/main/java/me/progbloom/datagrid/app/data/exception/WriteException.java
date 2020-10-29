@@ -1,4 +1,6 @@
-package me.progbloom.datagrid.app.base.exception;
+package me.progbloom.datagrid.app.data.exception;
+
+import me.progbloom.datagrid.app.base.exception.ApplicationException;
 
 public class WriteException extends ApplicationException {
 
