@@ -1,4 +1,4 @@
-package me.progbloom.datagrid.app.cluster.dto.request;
+package me.progbloom.datagrid.app.intercom.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

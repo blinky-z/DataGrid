@@ -1,4 +1,4 @@
-package me.progbloom.datagrid.app.cluster.dto.response;
+package me.progbloom.datagrid.app.intercom.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

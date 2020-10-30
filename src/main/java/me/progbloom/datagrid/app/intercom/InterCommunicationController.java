@@ -1,9 +1,9 @@
-package me.progbloom.datagrid.app.cluster;
+package me.progbloom.datagrid.app.intercom;
 
 import me.progbloom.datagrid.app.data.storage.Storage;
 import me.progbloom.datagrid.app.data.storage.StorageValue;
-import me.progbloom.datagrid.app.cluster.dto.request.NodeWriteRequestDto;
-import me.progbloom.datagrid.app.cluster.dto.response.NodeReadResponseDto;
+import me.progbloom.datagrid.app.intercom.dto.request.NodeWriteRequestDto;
+import me.progbloom.datagrid.app.intercom.dto.response.NodeReadResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

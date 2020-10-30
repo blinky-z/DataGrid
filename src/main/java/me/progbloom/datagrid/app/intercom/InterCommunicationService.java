@@ -1,7 +1,7 @@
-package me.progbloom.datagrid.app.cluster;
+package me.progbloom.datagrid.app.intercom;
 
-import me.progbloom.datagrid.app.cluster.exception.InterCommunicationReadException;
-import me.progbloom.datagrid.app.cluster.exception.InterCommunicationWriteException;
+import me.progbloom.datagrid.app.intercom.exception.InterCommunicationReadException;
+import me.progbloom.datagrid.app.intercom.exception.InterCommunicationWriteException;
 import me.progbloom.datagrid.app.data.storage.StorageValue;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;

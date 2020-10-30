@@ -1,16 +1,15 @@
-package me.progbloom.datagrid.app.cluster;
+package me.progbloom.datagrid.app.intercom;
 
-import me.progbloom.datagrid.app.cluster.dto.request.NodeWriteRequestDto;
-import me.progbloom.datagrid.app.cluster.dto.response.NodeReadResponseDto;
-import me.progbloom.datagrid.app.cluster.exception.InterCommunicationReadException;
-import me.progbloom.datagrid.app.cluster.exception.InterCommunicationWriteException;
+import me.progbloom.datagrid.app.intercom.dto.request.NodeWriteRequestDto;
+import me.progbloom.datagrid.app.intercom.dto.response.NodeReadResponseDto;
+import me.progbloom.datagrid.app.intercom.exception.InterCommunicationReadException;
+import me.progbloom.datagrid.app.intercom.exception.InterCommunicationWriteException;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;

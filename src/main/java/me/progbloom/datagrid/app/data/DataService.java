@@ -1,9 +1,8 @@
 package me.progbloom.datagrid.app.data;
 
 import me.progbloom.datagrid.app.data.exception.WriteException;
-import me.progbloom.datagrid.app.data.storage.Storage;
 import me.progbloom.datagrid.app.data.storage.StorageValue;
-import me.progbloom.datagrid.app.cluster.InterCommunicationService;
+import me.progbloom.datagrid.app.intercom.InterCommunicationService;
 import org.apache.curator.framework.recipes.atomic.AtomicValue;
 import org.apache.curator.framework.recipes.atomic.DistributedAtomicLong;
 import org.jetbrains.annotations.NotNull;

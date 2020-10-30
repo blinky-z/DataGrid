@@ -1,4 +1,4 @@
-package me.progbloom.datagrid.app.cluster.exception;
+package me.progbloom.datagrid.app.intercom.exception;
 
 import me.progbloom.datagrid.app.base.exception.ApplicationException;
 

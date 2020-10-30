@@ -1,4 +1,4 @@
-package me.progbloom.datagrid.app.cluster;
+package me.progbloom.datagrid.app.intercom;
 
 import org.jetbrains.annotations.NotNull;
 

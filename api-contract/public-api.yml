@@ -1,0 +1,62 @@
+openapi: 3.0.0
+info:
+  title: Public API
+  description: Описывает публичное API
+  version: 0.0.1
+
+servers:
+  - url: /
+    description: Префикс всех публичных эндпойнтов
+
+paths:
+  /read/{id}:
+    get:
+      summary: Чтение данных с ноды
+      description: Возвращает данные по указанному ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID данных
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+      responses:
+        '200':
+          description: Данные по указанному ID найдены
+          content:
+            application/json:
+              schema:
+                description: Данные по указанному ID
+                type: string
+        '404':
+          description: Данные по указанному ID не найдены
+        '5XX':
+          description: Неожиданная ошибка
+
+  /write:
+    post:
+      summary: Запись данных на ноду
+      description: Записывает данные на ноду
+      requestBody:
+        description: Данные для записи
+        content:
+          application/json:
+            schema:
+              type: string
+              description: Данные
+              minLength: 0
+      responses:
+        '200':
+          description: Данные записаны
+          content:
+            application/json:
+              schema:
+                description: ID сохраненных данных
+                type: integer
+                format: int64
+        '404':
+          description: Данные по указанному ID не найдены
+        '5XX':
+          description: Неожиданная ошибка
