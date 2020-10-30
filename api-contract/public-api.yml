@@ -56,7 +56,5 @@ paths:
                 description: ID сохраненных данных
                 type: integer
                 format: int64
-        '404':
-          description: Данные по указанному ID не найдены
         '5XX':
           description: Неожиданная ошибка
